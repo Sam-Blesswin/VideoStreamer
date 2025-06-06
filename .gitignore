@@ -1,0 +1,65 @@
+//
+//  .gitignore
+//  VideoStreamer
+//
+//  Created by Sam Blesswin Stephen Rajan on 6/6/25.
+//
+
+# macOS system files
+.DS_Store
+
+# Xcode project files
+*.xcworkspace/
+*.xcuserstate
+*.xcuserdata/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+
+# Derived data (Xcode build products)
+DerivedData/
+build/
+Build/
+*.build/
+
+# User-specific schemes
+*.xcscheme
+*.xcscmblueprint
+
+# Xcode temporary files
+*.moved-aside
+*.swp
+*.xcuserdatad/
+*.xcuserstate
+
+# GStreamer framework cache (if any)
+GStreamer.framework/
+
+# Logs
+*.log
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+
+# Binary files
+*.o
+*.a
+*.so
+*.dylib
+*.dSYM/
+*.exe
+*.out
+
+# CMake (if you use it)
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# IDE-specific backups (if you edit code outside of Xcode)
+*~
+*.bak
+
+# Clangd index files (if you use clangd)
+.cache/
+.clangd/
