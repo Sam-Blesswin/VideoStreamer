@@ -104,30 +104,15 @@
 
 #include <libsoup/soup.h>
 #include <glib.h>
+#include <json-glib/json-glib.h>
 
 // Global pointer to the WebSocket connection
 static SoupWebsocketConnection *ws_conn = NULL;
 
-// Callback for incoming WebSocket messages
-void on_server_message(SoupWebsocketConnection *conn,
-                      SoupWebsocketDataType type,
-                      GBytes *message,
-                      gpointer user_data)
-{
-   if (type != SOUP_WEBSOCKET_DATA_TEXT) {
-       g_printerr("Received non-text message, ignoring\n");
-       return;
-   }
-
-   gsize size;
-   const gchar *data = g_bytes_get_data(message, &size);
-
-}
-
 // Callback once WebSocket connection is established
 void on_server_connected(SoupSession *session,
                          GAsyncResult *res,
-                         SoupMessage *msg)
+                         SoupMessage *message)
 {
     GError *error = NULL;
 
@@ -140,8 +125,11 @@ void on_server_connected(SoupSession *session,
 
     g_print("Connected to signaling server!\n");
 
-    // Connect the "message" signal to handle incoming messages
-   g_signal_connect(ws_conn, "message", G_CALLBACK(on_server_message), NULL);
+    soup_websocket_connection_send_text(ws_conn, "HELLO gstreamer");
+    
+    //Test sending a message to client(browser1)
+    // soup_websocket_connection_send_text(ws_conn, "SESSION browser1");
+    // soup_websocket_connection_send_text(ws_conn, "{\"type\":\"hi\",\"data\":\"Hello Browser 1!\"}");
 }
 
 // Connect to the signaling server asynchronously

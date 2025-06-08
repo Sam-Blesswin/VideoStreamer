@@ -251,13 +251,11 @@ class WebRTCSimpleServer(object):
         return sslctx
 
     async def run(self):
-        async def handler(ws, path):
-            '''
-            All incoming messages are handled here. @path is unused.
-            '''
+        async def handler(ws):
             raddr = ws.remote_address
             print("Connected to {!r}".format(raddr))
             peer_id = await self.hello_peer(ws)
+            print("Peer ID is {!r}".format(peer_id))
             try:
                 await self.connection_handler(ws, peer_id)
             except websockets.ConnectionClosed:
