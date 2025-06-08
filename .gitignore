@@ -1,0 +1,6 @@
+# ---- VSCode ----
+.vscode/
+.history/
+
+# Ignore object files and executables
+Source/app
