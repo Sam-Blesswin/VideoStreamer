@@ -209,11 +209,6 @@ static void on_negotiation_needed(GstElement *webrtcbin, gpointer user_data) {
     g_signal_emit_by_name(webrtcbin, "create-offer", NULL, promise);
 }
 
-static GstPadProbeReturn probe_cb(GstPad *pad, GstPadProbeInfo *info, gpointer user_data) {
-    g_print("GStreamer: RTP packet sent\n");
-    return GST_PAD_PROBE_OK;
-}
-
 int main(int argc, char *argv[])
 {
     if (argc < 2) {
@@ -241,6 +236,8 @@ int main(int argc, char *argv[])
 
     //WebRTC bin: handles WebRTC Signaling, ICE and media streaming
     GstElement *webrtcbin = gst_element_factory_make("webrtcbin", "webrtcbin");
+    g_object_set(webrtcbin, "stun-server", "stun://stun.l.google.com:19302", NULL);
+
 
     if (!source || !encoder || !payloader || !webrtcbin) {
         g_error("Failed to create one or more elements");
@@ -260,7 +257,6 @@ int main(int argc, char *argv[])
 
     // Link payloader to webrtcbin sink_%u pad
     GstPad *payloader_srcpad = gst_element_get_static_pad(payloader, "src");
-    gst_pad_add_probe(payloader_srcpad, GST_PAD_PROBE_TYPE_BUFFER, (GstPadProbeCallback)probe_cb, NULL, NULL);
 
     GstPad *webrtcbin_sinkpad = gst_element_get_request_pad(webrtcbin, "sink_%u");
     if (gst_pad_link(payloader_srcpad, webrtcbin_sinkpad) != GST_PAD_LINK_OK)
